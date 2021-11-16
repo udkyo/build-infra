@@ -90,7 +90,7 @@ then
     error "Couldn't create tarball"
 else
     aws s3 cp /mnt/scratch/backup-${TAG}.tgz s3://cb-gerrit.backups/ || \
-        aws sns publish --topic-arn "${SNS_ARN}" --subject "Gerrit backup failed" --message "ERROR: S3 upload failed" --region ${REGION}
+        error "S3 upload failed"
 fi
 
 rm -rf /mnt/scratch/backup-${TAG}.tgz

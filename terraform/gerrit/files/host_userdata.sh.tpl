@@ -73,17 +73,6 @@ mount /mnt/data || (
 )
 
 
-###########################
-# Schedule weekly backups #
-###########################
-
-# Note: backups to s3 happen weekly on Sunday mornings
-# we separately take hourly snapshots for DR purposes
-echo "00 03 * * Sun \"gerrit-backup\"" >> /tmp/cron
-crontab /tmp/cron
-rm /tmp/cron
-
-
 ############################
 # Add user to docker group #
 ############################
