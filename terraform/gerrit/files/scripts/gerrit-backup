@@ -95,6 +95,8 @@ if ! sudo tar -czf /mnt/scratch/backup-${tag}.tgz \
     "plugins" \
     "static"
 then
+    echo "fatal, debug delay"
+    sleep 600
     error "Couldn't create tarball"
 else
     aws s3 cp /mnt/scratch/backup-${tag}.tgz s3://cb-gerrit.backups/ || \
