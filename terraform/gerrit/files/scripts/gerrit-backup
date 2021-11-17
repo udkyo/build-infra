@@ -78,6 +78,8 @@ do
     fi
 done
 
+sudo chown -R 1000:1000 /mnt/{backup,scratch}
+
 cd /mnt/backup
 
 echo "Backing up"
