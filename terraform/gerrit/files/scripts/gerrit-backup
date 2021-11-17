@@ -14,7 +14,7 @@ fi
 
 # If an existing volume is present, we want to fail up front
 echo "Checking to ensure no backup volume is present"
-if [ "$(aws ec2 describe-volumes --region us-east-2 --filters Name=tag:Name,Values=gerrit-backup | jq -r '.Volumes[0]')" != "null" ]
+if [ "$(aws ec2 describe-volumes --region us-east-2 --filters Name=tag:Name,Values=gerrit-backup-volume | jq -r '.Volumes[0]')" != "null" ]
 then
   error "Backup volume already exists"
 fi
@@ -41,7 +41,7 @@ export backup_volume=$(/usr/local/bin/aws ec2 create-volume \
                 --iops 3000 \
                 --throughput 200 \
                 --snapshot-id ${snapshot} \
-                --tag-specifications 'ResourceType=volume,Tags=[{Key=Name,Value=gerrit-backup},{Key=Owner,Value=build-team},{Key=Project,Value=gerrit},{Key=Purpose,Value=backup-restore}]' \
+                --tag-specifications 'ResourceType=volume,Tags=[{Key=Name,Value=gerrit-backup-volume},{Key=Owner,Value=build-team},{Key=Project,Value=gerrit},{Key=Purpose,Value=backup-restore}]' \
                 --availability-zone ${REGION}a | jq -r '.VolumeId')
 export scratch_volume=$(/usr/local/bin/aws ec2 create-volume \
                 --region ${REGION} \
@@ -49,7 +49,7 @@ export scratch_volume=$(/usr/local/bin/aws ec2 create-volume \
                 --iops 3000 \
                 --throughput 200 \
                 --size 120 \
-                --tag-specifications 'ResourceType=volume,Tags=[{Key=Name,Value=gerrit-scratch},{Key=Owner,Value=build-team},{Key=Project,Value=gerrit},{Key=Purpose,Value=backup-restore}]' \
+                --tag-specifications 'ResourceType=volume,Tags=[{Key=Name,Value=gerrit-scratch-volume},{Key=Owner,Value=build-team},{Key=Project,Value=gerrit},{Key=Purpose,Value=backup-restore}]' \
                 --availability-zone ${REGION}a | jq -r '.VolumeId')
 
 trap "cleanup ${backup_volume} ${scratch_volume}" EXIT
