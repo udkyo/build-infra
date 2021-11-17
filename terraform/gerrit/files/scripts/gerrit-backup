@@ -62,13 +62,13 @@ aws ec2 attach-volume --volume-id ${SCRATCH_VOLUME} --instance-id `cat /var/lib/
 aws ec2 wait volume-in-use --volume-ids ${BACKUP_VOLUME} --region ${REGION}
 aws ec2 wait volume-in-use --volume-ids ${SCRATCH_VOLUME} --region ${REGION}
 sleep 10
-mkfs -t ext4 /dev/sdg
+sudo mkfs -t ext4 /dev/sdg
 
 for vol in backup scratch
 do
     if ! grep -qs "${vol}" /proc/mounts
     then
-        mount /mnt/${vol}
+        sudo mount /mnt/${vol}
     fi
 done
 
