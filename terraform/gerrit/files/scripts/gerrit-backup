@@ -78,10 +78,12 @@ do
     fi
 done
 
+ls -la /mnt
+
 cd /mnt/backup
 
 echo "Backing up"
-if ! tar -czf /mnt/scratch/backup-${tag}.tgz \
+if ! sudo tar -czf /mnt/scratch/backup-${tag}.tgz \
     "cache" \
     "data" \
     "db" \
@@ -99,4 +101,4 @@ else
         error "S3 upload failed"
 fi
 
-rm -rf /mnt/scratch/backup-${tag}.tgz
+sudo rm -rf /mnt/scratch/backup-${tag}.tgz
