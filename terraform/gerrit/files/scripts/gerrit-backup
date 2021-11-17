@@ -2,6 +2,7 @@
 tag=$(date +%Y%m%d)
 
 function error() {
+    sleep 120
     echo "$@"
     exit 1
 }
