@@ -2,7 +2,6 @@
 tag=$(date +%Y%m%d)
 
 function error() {
-    sleep 600
     echo "$@"
     exit 1
 }
@@ -22,6 +21,8 @@ fi
 
 # We'll trap EXIT and clean up the volume if it's been created
 function cleanup() {
+    echo "Grace period before cleanup"
+    sleep 600
     for volume in $@
     do
         echo "Cleaning up ${volume}"
