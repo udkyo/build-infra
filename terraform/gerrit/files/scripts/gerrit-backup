@@ -21,8 +21,6 @@ fi
 
 # We'll trap EXIT and clean up the volume if it's been created
 function cleanup() {
-    echo "Grace period before cleanup"
-    sleep 600
     for volume in $@
     do
         echo "Cleaning up ${volume}"
