@@ -74,11 +74,9 @@ for vol in backup scratch
 do
     if ! grep -qs "${vol}" /proc/mounts
     then
-        sudo mount /mnt/${vol}
+        mount /mnt/${vol}
     fi
 done
-
-sudo chown -R 1000:1000 /mnt/{backup,scratch}
 
 cd /mnt/backup
 
