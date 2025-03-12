@@ -445,7 +445,11 @@ ENTRYPOINT [ "/tini", "--", "/usr/sbin/couchbuilder_start.sh" ]
 CMD [ "swarm" ]
 RUN echo "PermitUserEnvironment yes" >> /etc/ssh/sshd_config
 
+# Jenkins Agent Logging Configuration
 COPY logging.properties /usr/share/jenkins/logging.properties
+RUN set -x \
+    && touch /var/log/swarm-client.log \
+    && chown couchbase:couchbase /var/log/swarm-client.log
 
 # Keep this stuff at the end, because the ARG declaration breaks
 # Docker build caching
