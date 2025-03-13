@@ -51,7 +51,7 @@ services:
     deploy:
       replicas: 0
 
-  # Placeholder service for single_docker.
+  # Placeholder service for linux_docker.
   # Note: this should always have zero replicas. Its presence here is
   # required to allow EC2 instances to discover the correct image.
   linux_docker:
