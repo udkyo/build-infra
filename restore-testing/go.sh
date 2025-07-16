@@ -33,14 +33,14 @@ fi
 
 # Parse service type and instance
 if [[ "${SERVICE}" == *_jenkins ]]; then
-    ROLE="_jenkins_restore_testing"
+    ROLE="_jenkins_test_role"
     SERVICE_TYPE="jenkins"
     JENKINS_INSTANCE="${SERVICE%_jenkins}"
 elif [[ "${SERVICE}" == "gerrit" ]]; then
-    ROLE="_gerrit_restore_testing"
+    ROLE="_gerrit_test_role"
     SERVICE_TYPE="gerrit"
 elif [[ "${SERVICE}" == "build-db" ]]; then
-    ROLE="_build_db_restore_testing"
+    ROLE="_build_db_test_role"
     SERVICE_TYPE="build-db"
 else
     echo "Unknown service: ${SERVICE}"

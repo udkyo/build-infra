@@ -42,10 +42,20 @@ src/{jenkins,gerrit,build-db}.sh (service modules)
 ## Prerequisites
 
 ### AWS Setup
+
+**Option 1: Use Terraform (Recommended)**
+```bash
+cd terraform/
+cp terraform.tfvars.example terraform.tfvars
+# Edit terraform.tfvars with your real bucket names
+terraform init && terraform apply
+```
+
+**Option 2: Manual Setup**
 1. **IAM Instance Profiles** with S3 access:
-   - `_jenkins_restore_testing`
-   - `_gerrit_restore_testing`
-   - `_build_db_restore_testing`
+   - `_jenkins_test_role`
+- `_gerrit_test_role`
+- `_build_db_test_role`
 
 2. **IAM Policy Example** (for build-db):
 ```json
@@ -155,6 +165,37 @@ s3://bucket/
 1. Restores data using `cbbackupmgr`
 2. Validates 1M+ items restored across restored buckets
 3. Captures Buckets page after authentication
+
+## Jenkins Integration
+
+For use in Jenkins jobs, configure the backup bucket names:
+
+```bash
+# Example Jenkins job configuration
+case "${SERVICE}" in
+    *_jenkins)
+        export S3_BUCKET="your-jenkins-backup-bucket"
+        ;;
+    gerrit)
+        export S3_BUCKET="your-gerrit-backup-bucket"
+        ;;
+    build-db)
+        export S3_BUCKET="your-build-db-backup-bucket"
+        ;;
+    *)
+        echo "ERROR: Unknown service: ${SERVICE}"
+        exit 1
+        ;;
+esac
+
+# Then run the restore testing
+./go.sh
+```
+
+This approach:
+- **Keeps bucket names in Jenkins configuration** (not in public repo)
+- **Auto-detects IAM roles** based on service type
+- **Simplifies configuration** - only bucket names need to be set
 
 ## Backup Detection
 
